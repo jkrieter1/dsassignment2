@@ -5,8 +5,8 @@
  * might need.  Also, don't forget to include your name and @oregonstate.edu
  * email address below.
  *
- * Name:
- * Email:
+ * Name: Joseph Krieter
+ * Email: krieterj@oregonstate.edu
  */
 
 #include <stdlib.h>
