@@ -5,8 +5,8 @@
  * might need.  Also, don't forget to include your name and @oregonstate.edu
  * email address below.
  *
- * Name:
- * Email:
+ * Name: Joseph Krieter
+ * Email: krieterj@oregonstate.edu
  */
 
 #include <stdlib.h>
@@ -30,10 +30,15 @@ struct stack {
  * a pointer to it.
  */
 struct stack* stack_create() {
-	/*
-	 * FIXME:
-	 */
-	return NULL;
+	struct stack* newstack = (struct stack*)malloc(sizeof(struct stack));
+	if (!newstack){
+		printf("AAAAAHHHHH\n");
+		return NULL; 
+	}
+	newstack->list = (struct list*)malloc(sizeof(struct list)); 
+
+	newstack->list.head = NULL; 
+	return newstack;
 }
 
 /*
