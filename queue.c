@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "queue.h"
 #include "dynarray.h"
@@ -30,10 +31,18 @@ struct queue {
  * a pointer to it.
  */
 struct queue* queue_create() {
-	/*
-	 * FIXME:
-	 */
-	return NULL;
+	struct queue* newqueue = (struct queue*)malloc(sizeof(struct queue));
+	if(!newqueue){
+		panic(); 
+		return NULL; 
+	}
+	newqueue->array = dynarray_create(); 
+	if(!newqueue->array){
+		panic();
+		return NULL; 
+	}
+
+	return newqueue;
 }
 
 /*
@@ -46,9 +55,8 @@ struct queue* queue_create() {
  *   queue - the queue to be destroyed.  May not be NULL.
  */
 void queue_free(struct queue* queue) {
-	/*
-	 * FIXME:
-	 */
+	dynarray_free(queue->array); 
+	free(queue); 
   	return;
 }
 
@@ -61,10 +69,10 @@ void queue_free(struct queue* queue) {
  *   queue - the queue whose emptiness is being questioned.  May not be NULL.
  */
 int queue_isempty(struct queue* queue) {
-	/* 
-	 * FIXME:
-	 */
-	return 1;
+	if(dynarray_size(queue->array) == 0){
+		return 1;
+	}
+	return 0;
 }
 
 /*
@@ -78,9 +86,7 @@ int queue_isempty(struct queue* queue) {
  *     which means that a pointer of any type can be passed.
  */
 void queue_enqueue(struct queue* queue, void* val) {
-	/*
-	 * FIXME:
-	 */
+	dynarray_insert(queue->array, val);
 	return;
 }
 
@@ -93,10 +99,8 @@ void queue_enqueue(struct queue* queue, void* val) {
  *   queue - the queue from which to query the front value.  May not be NULL.
  */
 void* queue_front(struct queue* queue) {
-	/* 
-	 * FIXME:
-	 */
-	return NULL;
+	void* value = dynarray_get(queue->array, 0);
+	return value;
 }
 
 /*
@@ -110,8 +114,13 @@ void* queue_front(struct queue* queue) {
  *   This function should return the value that was dequeued.
  */
 void* queue_dequeue(struct queue* queue) {
-	/* 
-	 * FIXME:
-	 */
-	return NULL;
+	void* value = dynarray_get(queue->array, 0);
+	dynarray_remove(queue->array, 0);
+	return value;
+}
+
+void panic(){
+	printf("You are a terrible coder and deserve lots of memory leaks\n");
+	printf("AAAAAHHHHHHHH");
+	return; 
 }
