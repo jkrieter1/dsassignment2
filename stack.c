@@ -10,9 +10,10 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 
-#include "stack.h"
 #include "list.h"
+#include "stack.h"
 
 /*
  * This is the structure that will be used to represent a stack.  This
@@ -35,9 +36,13 @@ struct stack* stack_create() {
 		printf("AAAAAHHHHH\n");
 		return NULL; 
 	}
-	newstack->list = (struct list*)malloc(sizeof(struct list)); 
+	newstack->list = list_create();
+	if (!newstack->list){
+		printf("AAAAHHHHH\n");
+		free(newstack);
+		return NULL; 
+	}
 
-	newstack->list.head = NULL; 
 	return newstack;
 }
 
@@ -51,9 +56,13 @@ struct stack* stack_create() {
  *   stack - the stack to be destroyed.  May not be NULL.
  */
 void stack_free(struct stack* stack) {
-	/*
-	 * FIXME:
-	 */
+	if(!stack){
+		printf("AAAAAAAAAAHHHHHHHHHHH");
+		return;
+	}
+	list_free(stack->list);
+	free(stack); 
+
 	return;
 }
 
@@ -66,10 +75,7 @@ void stack_free(struct stack* stack) {
  *   stack - the stack whose emptiness is being questioned.  May not be NULL.
  */
 int stack_isempty(struct stack* stack) {
-	/*
-	 * FIXME:
-	 */
-	return 1;
+	return is_empty(stack->list); 
 }
 
 /*
@@ -83,9 +89,7 @@ int stack_isempty(struct stack* stack) {
  *     which means that a pointer of any type can be passed.
  */
 void stack_push(struct stack* stack, void* val) {
-	/*
-	 * FIXME:
-	 */
+	list_insert(stack->list, val); 
 	return;
 }
 
@@ -98,10 +102,7 @@ void stack_push(struct stack* stack, void* val) {
  *   stack - the stack from which to query the top value.  May not be NULL.
  */
 void* stack_top(struct stack* stack) {
-	/*
-	 * FIXME:
-	 */
-	return NULL;
+	return list_front(stack->list);
 }
 
 /*
@@ -115,8 +116,5 @@ void* stack_top(struct stack* stack) {
  *   This function should return the value that was popped.
  */
 void* stack_pop(struct stack* stack) {
-	/*
-	 * FIXME:
-	 */
-	return NULL;
+	return list_remove_front(stack->list); 
 }

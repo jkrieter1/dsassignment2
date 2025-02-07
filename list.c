@@ -199,3 +199,26 @@ void list_reverse(struct list* list) {
     curr = next;
   }
 }
+
+int is_empty(struct list* list){
+  return list->head == NULL;
+}
+
+void* list_front(struct list* list){
+  if (is_empty(list)){
+    return NULL;
+  }
+  return list->head->val;
+}
+
+void* list_remove_front(struct list* list){
+  if(is_empty(list)){
+    return NULL; 
+  }
+  struct node* temp = list->head; 
+  list->head = list->head->next; 
+  void* value = temp->val; 
+  list->head = temp->next; 
+  free(temp); 
+  return value; 
+}
